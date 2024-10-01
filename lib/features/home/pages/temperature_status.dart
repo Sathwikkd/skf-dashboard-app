@@ -46,83 +46,87 @@ class _TemperatureStatusState extends State<TemperatureStatus> with SingleTicker
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Real time temperature gauge',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 45),
-            Center(
-              child: SizedBox(
-                child: SfRadialGauge(
-                  axes: <RadialAxis>[
-                    RadialAxis(
-                      minimum: 0,
-                      maximum: 200,
-                      interval: 20,
-                      showLastLabel: true,
-                      ranges: <GaugeRange>[
-                        GaugeRange(
-                          startValue: 0,
-                          endValue: 50,
-                          color: Colors.green,
-                        ),
-                        GaugeRange(
-                          startValue: 50,
-                          endValue: 100,
-                          color: Colors.orange,
-                        ),
-                        GaugeRange(
-                          startValue: 100,
-                          endValue: 150,
-                          color: Colors.yellow,
-                        ),
-                        GaugeRange(
-                          startValue: 150,
-                          endValue: 200,
-                          color: Colors.red,
-                        ),
-                      ],
-                      pointers: <GaugePointer>[
-                        NeedlePointer(
-                          value: temperatureValue, 
-                          enableAnimation: true,
-                        ),
-                      ],
-                      annotations: <GaugeAnnotation>[
-                        GaugeAnnotation(
-                          widget: Text(
-                            '${temperatureValue}°C', 
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          positionFactor: 0.4,
-                          angle: 90,
-                        )
-                      ],
-                    ),
-                  ],
+        body: Padding(
+          padding: const EdgeInsets.only(top:20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Real time temperature gauge',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            if (temperatureValue >= 150)
-              FadeTransition(
-                opacity: _animation,
-                child: const Icon(Icons.warning, color: Colors.red, size: 50),
-              )
-            else
-              const Icon(Icons.warning, color: Colors.grey, size: 50), 
-          ],
+              const SizedBox(height: 45),
+              Center(
+                child: SizedBox(
+                  child: SfRadialGauge(
+                    axes: <RadialAxis>[
+                      RadialAxis(
+                        minimum: 0,
+                        maximum: 200,
+                        interval: 20,
+                        showLastLabel: true,
+                        ranges: <GaugeRange>[
+                          GaugeRange(
+                            startValue: 0,
+                            endValue: 50,
+                            color: Colors.green,
+                          ),
+                          GaugeRange(
+                            startValue: 50,
+                            endValue: 100,
+                            color: Colors.orange,
+                          ),
+                          GaugeRange(
+                            startValue: 100,
+                            endValue: 150,
+                            color: Colors.yellow,
+                          ),
+                          GaugeRange(
+                            startValue: 150,
+                            endValue: 200,
+                            color: Colors.red,
+                          ),
+                        ],
+                        pointers: <GaugePointer>[
+                          NeedlePointer(
+                            value: temperatureValue, 
+                            enableAnimation: true,
+                          ),
+                        ],
+                        annotations: <GaugeAnnotation>[
+                          GaugeAnnotation(
+                            widget: Text(
+                              '${temperatureValue}°C', 
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            positionFactor: 0.4,
+                            angle: 90,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              if (temperatureValue >= 150)
+                FadeTransition(
+                  opacity: _animation,
+                  child: const Icon(Icons.warning, color: Colors.red, size: 50),
+                )
+              else
+                const Icon(Icons.warning, color: Colors.grey, size: 50), 
+            ],
+          ),
         ),
     );
   }

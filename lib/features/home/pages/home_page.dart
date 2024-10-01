@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skf_project/features/home/pages/recipe.dart';
 import 'package:skf_project/features/home/pages/temperature_status.dart';
 import 'package:skf_project/features/home/pages/valve_status.dart';
 import 'package:skf_project/features/home/widgets/custom_home_page_card.dart';
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const ValveStatus()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> TimerClockPage()));
                 },
                 child: const CustomHomePageCard(
                   title: "Active Devices",
