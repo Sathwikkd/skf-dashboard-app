@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           const SizedBox(
             height: 30,
-          ),
+          ),  
           _startingRow(),
           _secondRowCards(),
           _lastSection(),
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> TimerClockPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> RecipeTemperature()));
                 },
                 child: const CustomHomePageCard(
                   title: "Active Devices",

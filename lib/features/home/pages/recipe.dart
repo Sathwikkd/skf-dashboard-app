@@ -8,36 +8,93 @@ class TimerClockPage extends StatefulWidget {
   _TimerClockPageState createState() => _TimerClockPageState();
 }
 
-
-
 class _TimerClockPageState extends State<TimerClockPage> {
-  final int timerMaxSeconds = 60;
+  int currentStep = 0; 
+  Timer? _timer; 
+  final int stepDuration = 5; 
   int currentSeconds = 0;
-  Timer? _timer;
+  final int totalSteps = 4; 
 
-  String get timerText =>
-      '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+  
+  String get timerText {
+    int secondsRemaining = stepDuration - currentSeconds;
+    return '${(secondsRemaining ~/ 60).toString().padLeft(2, '0')}:${(secondsRemaining % 60).toString().padLeft(2, '0')}';
+  }
 
-  void startTimeout() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1),
+     (timer) {
       setState(() {
         currentSeconds = timer.tick;
-        if (timer.tick >= timerMaxSeconds) {
-          timer.cancel();
+        if (currentSeconds >= stepDuration) {
+          _moveToNextStep(); 
         }
       });
+    });
+  }
+
+  void resetTimer() {
+    _timer?.cancel(); 
+    currentSeconds = 0; 
+    startTimer(); 
+  }
+
+  void _showCompletionReport() {
+    _timer?.cancel(); 
+    setState(() {
+      currentSeconds = 0;  
+    });
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:const Text("Completion Report"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text("All steps completed successfully!"),
+             const SizedBox(height: 10),
+             const Text("Status: Completed"),
+             const SizedBox(height: 10),
+              Text("Report Generated: ${DateTime.now()}"),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child:const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _moveToNextStep() {
+    setState(() {
+      if (currentStep < totalSteps) {
+        currentStep++;
+        if (currentStep == totalSteps) {
+          _showCompletionReport();  
+        } else {
+          resetTimer(); 
+        }
+      }
     });
   }
 
   @override
   void initState() {
     super.initState();
-    startTimeout();
+    startTimer();  
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _timer?.cancel(); 
     super.dispose();
   }
 
@@ -46,7 +103,7 @@ class _TimerClockPageState extends State<TimerClockPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Recipe Timer and Temperature'),
+        title: const Text('Automatic Timeline with Timer'),
       ),
       body: Column(
         children: [
@@ -89,14 +146,14 @@ class _TimerClockPageState extends State<TimerClockPage> {
                           ],
                           pointers: const <GaugePointer>[
                             NeedlePointer(
-                              value: 100,
+                              value: 160,
                               enableAnimation: true,
                             ),
                           ],
                           annotations: const <GaugeAnnotation>[
                             GaugeAnnotation(
                               widget: Text(
-                                '100°C',
+                                '160°C',
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -117,7 +174,7 @@ class _TimerClockPageState extends State<TimerClockPage> {
                     height: 150,
                     child: Center(
                       child: Text(
-                        timerText,
+                        timerText, 
                         style: TextStyle(
                           fontSize: 48,
                           fontWeight: FontWeight.bold,
@@ -136,11 +193,31 @@ class _TimerClockPageState extends State<TimerClockPage> {
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 40),
-              children:const [
-                MyTimeLine(isFirst: true, isLast: false, isPast: true,eventcard: Text('1st step completed'),),
-                MyTimeLine(isFirst: false, isLast: false, isPast: true,eventcard: Text('2nd task completed'),),
-                MyTimeLine(isFirst: false, isLast: false, isPast: true,eventcard: Text('3rd step completed'),),
-                MyTimeLine(isFirst: false, isLast: true, isPast: true,eventcard: Text('final step completed'),),
+              children: [
+                MyTimeLine(
+                  isFirst: true,
+                  isLast: false,
+                  isPast: currentStep >= 1,
+                  eventcard: const Text('1st step completed'),
+                ),
+                MyTimeLine(
+                  isFirst: false,
+                  isLast: false,
+                  isPast: currentStep >= 2,
+                  eventcard: const Text('2nd task completed'),
+                ),
+                MyTimeLine(
+                  isFirst: false,
+                  isLast: false,
+                  isPast: currentStep >= 3,
+                  eventcard:const Text('3rd step completed'),
+                ),
+                MyTimeLine(
+                  isFirst: false,
+                  isLast: true,
+                  isPast: currentStep >= 4,
+                  eventcard: const Text('Final step completed'),
+                ),
               ],
             ),
           ),

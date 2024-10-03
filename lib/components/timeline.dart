@@ -7,15 +7,22 @@ class MyTimeLine extends StatelessWidget {
   final isLast;
   final isPast;
   final eventcard;
+  final Function? onStepComplete;
+
   const MyTimeLine({super.key,
   required this.isFirst,
   required this.isLast,
   required this.isPast,
-  required this.eventcard
+  required this.eventcard,
+  this.onStepComplete
   });
 
   @override
   Widget build(BuildContext context) {
+
+      if (isLast && isPast && onStepComplete != null) {
+      onStepComplete!();
+      }
     return SizedBox(height: 100,
       child: TimelineTile(
         isFirst: isFirst,
