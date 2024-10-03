@@ -39,6 +39,7 @@ dependencies:
   syncfusion_flutter_sliders: ^27.1.50
   timeline_tile: ^2.0.0
   mqtt_client: ^9.7.2
+  syncfusion_flutter_gauges: ^27.1.50
 
 dev_dependencies:
   flutter_test:
@@ -50,7 +51,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
-  syncfusion_flutter_gauges: ^27.1.50
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

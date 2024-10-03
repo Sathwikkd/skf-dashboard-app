@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           const SizedBox(
             height: 30,
-          ),  
+          ),
           _startingRow(),
           _secondRowCards(),
           _lastSection(),
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 350,
-      child:  Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
@@ -63,7 +63,10 @@ class _HomePageState extends State<HomePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> RecipeTemperature()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RecipeTemperature()));
                 },
                 child: const CustomHomePageCard(
                   title: "Active Devices",
@@ -76,7 +79,7 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 20,
           ),
-        const Row(
+          const Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -119,8 +122,11 @@ class _HomePageState extends State<HomePage> {
                   Icons.history, "History", Icons.arrow_forward_ios_rounded),
               _bottomKeys(Icons.add_chart_rounded, "Data Graphs",
                   Icons.arrow_forward_ios_rounded),
-              _bottomKeys(Icons.info, "Help and Support",
-                  Icons.arrow_forward_ios_rounded)
+              _bottomKeys(
+                Icons.info,
+                "Help and Support",
+                Icons.arrow_forward_ios_rounded,
+              )
             ],
           ),
         ),
@@ -157,7 +163,10 @@ class _HomePageState extends State<HomePage> {
           children: [
             Row(
               children: [
-                Icon(leading , color: Colors.grey,),
+                Icon(
+                  leading,
+                  color: Colors.grey,
+                ),
                 const SizedBox(
                   width: 10,
                 ),
@@ -171,7 +180,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            Icon(trailing , color: Colors.grey,)
+            Icon(
+              trailing,
+              color: Colors.grey,
+            )
           ],
         ),
       ),
