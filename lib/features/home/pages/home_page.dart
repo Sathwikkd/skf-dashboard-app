@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:skf_project/features/home/pages/temperature_status.dart';
 import 'package:skf_project/features/home/widgets/custom_home_page_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,21 +14,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue.shade400,
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          _startingRow(),
-          _secondRowCards(),
-          _lastSection(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            _startingRow(),
+            _secondRowCards(),
+            _lastSection(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _startingRow() {
     return SizedBox(
+      width: MediaQuery.of(context).size.width,
       height: 100,
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -74,19 +76,29 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 20,
           ),
-          const Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CustomHomePageCard(
-                title: "Recipe Temp",
-                icon: Icons.thermostat,
-                iconSize: 60,
+              GestureDetector(
+                onTap: (){
+                  Navigator.pushNamed(context, "/recipe");
+                },
+                child:const CustomHomePageCard(
+                  title: "Recipe Temp",
+                  icon: Icons.thermostat,
+                  iconSize: 60,
+                ),
               ),
-              CustomHomePageCard(
-                title: "Status",
-                icon: Icons.done_all_rounded,
-                iconSize: 60,
+              GestureDetector(
+                onTap: (){
+                  Navigator.pushNamed(context, "/status");
+                },
+                child:const CustomHomePageCard(
+                  title: "Status",
+                  icon: Icons.done_all_rounded,
+                  iconSize: 60,
+                ),
               ),
             ],
           ),
@@ -96,8 +108,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _lastSection() {
-    return Expanded(
-      child: Container(
+    return Container(
         margin: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
           color: Colors.grey.shade50,
@@ -106,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             topRight: Radius.circular(30),
           ),
         ),
-        height: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height - 490,
         width: MediaQuery.of(context).size.width,
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -125,7 +136,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-      ),
     );
   }
 

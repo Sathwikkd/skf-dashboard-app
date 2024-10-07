@@ -4,3 +4,6 @@ part of 'temperature_bloc.dart';
 sealed class TemperatureEvent {}
 
 class FetchDataFromMqttEvent extends TemperatureEvent{}
+
+
+class StopStreamEvent extends TemperatureEvent{}

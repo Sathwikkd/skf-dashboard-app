@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:skf_project/features/active_device/temp_and_pid.dart';
-import 'package:skf_project/features/home/pages/home_page.dart';
 import 'package:skf_project/generated_routes.dart';
 
 
@@ -17,7 +15,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: Routes.onGenerate,
-      initialRoute: "/temp",
+      initialRoute: "/home",
     );
   }
 }

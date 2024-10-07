@@ -27,6 +27,19 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
     return Scaffold(
       backgroundColor: Colors.blue.shade400,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            BlocProvider.of<TemperatureBloc>(context).add(StopStreamEvent());
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+          size: 30,
+        ),
         surfaceTintColor: Colors.blue.shade400,
         title: Text(
           "Real Time Data",
@@ -53,17 +66,15 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
           child: BlocConsumer<TemperatureBloc, TemperatureState>(
             listener: (context, state) {
               if (state is FetchDataFromMqttSuccessState) {
-                print("Received topic: ${state.topic}");
-                print("Received data: ${state.data}");
-
                 // Check topic and update state accordingly
-                if (state.topic == "vs24skf01/stream_temp") {
+                print(state.data['message_type']);
+                if (state.data['message_type'] == 0) {
                   setState(() {
-                    temperatureValue = double.tryParse(state.data) ?? 0.0;
+                    temperatureValue = double.tryParse(state.data['temp']) ?? 0.0;
                   });
-                } else if (state.topic == "vs24skf01/stream_pid") {
+                } else if (state.data['message_type'] == 1) {
                   setState(() {
-                    pidvalveValue = double.tryParse(state.data) ?? 0.0;
+                    pidvalveValue = double.tryParse(state.data['pid']) ?? 0.0;
                   });
                 }
               }

@@ -1,71 +1,71 @@
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'dart:convert';
 
-class MQTTClientManager {
-  MqttServerClient? client;
-  final String broker = 'biometricunit.vsensetech.in';
-  final int port = 1883;
 
-  Function(String topic, String payload)? onMessageReceived; 
+class MqttClientManager {
+   MqttServerClient? client;
+  Function(String topic, String payload)? onMessageReceived;
 
-  Future<void> initializeMQTT() async {
-    client = MqttServerClient(broker, '');
-    client!.port = port;
+  Future<void> initilizeMqtt() async {
+    // Initilizing all the required values of the client
+    client =
+        MqttServerClient.withPort("biometricunit.vsensetech.in", "test_123", 1883);
     client!.keepAlivePeriod = 60;
-    client!.onDisconnected = onDisconnected;
     client!.onConnected = onConnected;
-    client!.logging(on: true);
+    client!.onDisconnected = onDisconnected;
     client!.onSubscribed = onSubscribed;
     client!.onUnsubscribed = onUnsubscribed;
+    client!.pongCallback = pong;
 
     final connMessage = MqttConnectMessage()
         .withClientIdentifier('flutter_client')
-        .withWillTopic('willtopic') 
+        .withWillTopic('willtopic')
         .withWillMessage('My Will message')
         .startClean()
         .withWillQos(MqttQos.atLeastOnce);
-    
+
     client!.connectionMessage = connMessage;
 
+    // Trying to connect to mqtt
     try {
       await client!.connect();
     } catch (e) {
-      print('Error: $e');
       client!.disconnect();
     }
-
+    // Checking wheather the connection is alive or not
     if (client!.connectionStatus!.state == MqttConnectionState.connected) {
-      print('MQTT client connected');
+      _subscribeToTopic();
+      print("Connected to Mqtt");
     } else {
-      print('MQTT connection failed');
+      print("Unable to Connect");
       client!.disconnect();
     }
   }
 
+  // All Functions Related To Connection
   void onConnected() {
-    print('Connected');
-    _subscribeToTopics(); 
+    print("Connected");
   }
 
   void onDisconnected() {
-    print('Disconnected');
+    print("Disconnected");
   }
 
   void onSubscribed(String topic) {
-    print('Subscribed to $topic');
+    print("Subscribed to $topic");
   }
 
   void onUnsubscribed(String? topic) {
-    print('Unsubscribed');
+    print("Unsubscribed to $topic");
   }
 
-  void _subscribeToTopics() {
-    client!.subscribe('vs24skf01/stream_temp', MqttQos.atMostOnce);
-    client!.subscribe('vs24skf01/stream_pid', MqttQos.atMostOnce);
-    client!.subscribe('vs24skf01/update_temp', MqttQos.atMostOnce);
-    client!.subscribe('vs24skf01/update_pid', MqttQos.atMostOnce);
+  void pong() {
+    print("pong");
+  }
 
+  void _subscribeToTopic() {
+    client!.subscribe('app/vs24skf01', MqttQos.atLeastOnce);
+    
     client!.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;
       final String payload =
@@ -74,12 +74,12 @@ class MQTTClientManager {
       print('Received message: $payload from topic: ${c[0].topic}>');
 
       if (onMessageReceived != null) {
-        onMessageReceived!(c[0].topic, payload); 
+        onMessageReceived!(c[0].topic, payload);
       }
     });
   }
 
-  void disconnect() {
+  Future<void> disconnect() async {
     client!.disconnect();
   }
 }

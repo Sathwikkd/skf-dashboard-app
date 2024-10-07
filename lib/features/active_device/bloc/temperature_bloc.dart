@@ -1,20 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:async'; // For StreamController
+import 'dart:async';
 import 'package:skf_project/mqtt_client.dart';
 
 part 'temperature_event.dart';
 part 'temperature_state.dart';
 
-
 class StreamData {
-  final String data;
+  final dynamic data;
   final String topic;
   StreamData({required this.data, required this.topic});
-} 
+}
 
 class TemperatureBloc extends Bloc<TemperatureEvent, TemperatureState> {
-  final MQTTClientManager mqttClientManager;
+  final MqttClientManager mqttClientManager;
   late StreamController<StreamData> _mqttStreamController;
   TemperatureBloc({required this.mqttClientManager})
       : super(TemperatureInitial()) {
@@ -22,7 +23,7 @@ class TemperatureBloc extends Bloc<TemperatureEvent, TemperatureState> {
 
     on<FetchDataFromMqttEvent>((event, emit) async {
       try {
-        mqttClientManager.initializeMQTT();
+        mqttClientManager.initilizeMqtt();
         await emit.forEach<StreamData>(
           _mqttStreamController.stream,
           onData: (data) {
@@ -38,13 +39,12 @@ class TemperatureBloc extends Bloc<TemperatureEvent, TemperatureState> {
       }
     });
     mqttClientManager.onMessageReceived = (String topic, String payload) {
-      _mqttStreamController.add(StreamData(data: payload, topic: topic));
+      var data = jsonDecode(payload);
+      _mqttStreamController.add(StreamData(data: data, topic: topic));
     };
-  }
-
-  @override
-  Future<void> close() {
-    _mqttStreamController.close();
-    return super.close();
+    on<StopStreamEvent>((event, emit) async {
+      await mqttClientManager.disconnect(); // Call a method to close the MQTT connection.
+      await _mqttStreamController.close();
+    });
   }
 }

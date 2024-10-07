@@ -5,7 +5,12 @@ class CustomHomePageCard extends StatelessWidget {
   final String title;
   final IconData icon;
   final double iconSize;
-  const CustomHomePageCard({super.key, required this.title , required this.icon , required this.iconSize});
+  const CustomHomePageCard({
+    super.key,
+    required this.title,
+    required this.icon,
+    required this.iconSize,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,20 +45,18 @@ class CustomHomePageCard extends StatelessWidget {
                 title,
                 style: GoogleFonts.nunito(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              const SizedBox(
+                height: 15,
+              ),
               Icon(
                 icon,
-                size: iconSize,
+                size: iconSize + 5,
                 color: Colors.white,
               ),
-              Text("5" , style: GoogleFonts.nunito(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold
-              ),),
             ],
           ),
         ),
