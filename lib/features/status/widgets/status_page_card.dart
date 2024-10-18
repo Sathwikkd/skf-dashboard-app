@@ -64,7 +64,7 @@ class StatusPageCard extends StatelessWidget {
                 width: 15,
                 height: 15,
                 decoration: BoxDecoration(
-                    color: status == "0" ? Colors.red : Colors.green,
+                    color: status == "81" ? Colors.red : Colors.green,
                     borderRadius: BorderRadius.circular(20)),
               ),
               Text(
