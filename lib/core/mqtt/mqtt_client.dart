@@ -9,7 +9,7 @@ class MqttClientManager {
   Future<void> initilizeMqtt() async {
     // Initilizing all the required values of the client
     client =
-        MqttServerClient.withPort("biometricunit.vsensetech.in", "test_123", 1883);
+        MqttServerClient.withPort("skfplc.vsensetech.in", "test_123", 1883);
     client!.keepAlivePeriod = 60;
     client!.onConnected = onConnected;
     client!.onDisconnected = onDisconnected;

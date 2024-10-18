@@ -4,13 +4,17 @@ import 'package:google_fonts/google_fonts.dart';
 class StatusPageCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  const StatusPageCard({super.key , required this.title , required this.subtitle});
+  final String status;
+  const StatusPageCard(
+      {super.key,
+      required this.title,
+      required this.subtitle,
+      this.status = "81"});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 70,
       decoration: BoxDecoration(
         color: Colors.grey.shade50,
         borderRadius: BorderRadius.circular(10),
@@ -44,11 +48,13 @@ class StatusPageCard extends StatelessWidget {
           ),
         ),
         trailing: Container(
-          width: 45,
+          width: 50,
           height: 20,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: const Color.fromARGB(133, 76, 175, 79),
+            color: status == "81"
+                ? const Color.fromARGB(126, 244, 67, 79)
+                : const Color.fromARGB(133, 76, 175, 79),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,12 +64,14 @@ class StatusPageCard extends StatelessWidget {
                 width: 15,
                 height: 15,
                 decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: status == "0" ? Colors.red : Colors.green,
                     borderRadius: BorderRadius.circular(20)),
               ),
-              const Text(
-                "ON",
-                style: TextStyle(color: Colors.white),
+              Text(
+                status == "81" ? "OFF" : "ON",
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(
                 width: 1,

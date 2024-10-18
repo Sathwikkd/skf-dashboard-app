@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
-import 'package:skf_project/mqtt_client.dart';
+import 'package:skf_project/core/mqtt/mqtt_client.dart';
 
 part 'temperature_event.dart';
 part 'temperature_state.dart';

@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
               const CustomHomePageCard(
                 title: "Total Devices",
                 icon: Icons.electrical_services_rounded,
-                iconSize: 60,
+                iconSize: 40,
               ),
               GestureDetector(
                 onTap: () {
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                 child: const CustomHomePageCard(
                   title: "Active Devices",
                   icon: Icons.electric_bolt_rounded,
-                  iconSize: 60,
+                  iconSize: 40,
                 ),
               ),
             ],
@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                 child:const CustomHomePageCard(
                   title: "Recipe Temp",
                   icon: Icons.thermostat,
-                  iconSize: 60,
+                  iconSize: 40,
                 ),
               ),
               GestureDetector(
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                 child:const CustomHomePageCard(
                   title: "Status",
                   icon: Icons.done_all_rounded,
-                  iconSize: 60,
+                  iconSize: 40,
                 ),
               ),
             ],
