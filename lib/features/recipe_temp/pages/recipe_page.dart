@@ -25,26 +25,26 @@ class _RecipePageState extends State<RecipePage> {
   Widget build(BuildContext context) {
     return BlocListener<RecipeBloc, RecipeState>(
       listener: (context, state) {
-        if(state is FetchRecipeSuccessState){
-          if(int.parse(state.data['tm']) < 60 && int.parse(state.data["tm"]) != -1){ 
+        if (state is FetchRecipeSuccessState) {
+          if (int.parse(state.data['tm']) < 60 &&
+              int.parse(state.data["tm"]) != -1) {
             setState(() {
               timeValue = state.data["tm"];
             });
           }
-          if(state.data['mt'] == "6"){
+          if (state.data['mt'] == "6") {
             setState(() {
               task1 = state.data["tm"];
             });
-          }else if(state.data['mt'] == "7"){
+          } else if (state.data['mt'] == "7") {
             setState(() {
               task2 = state.data["tm"];
             });
-          }
-          else if(state.data['mt'] == "8"){
+          } else if (state.data['mt'] == "8") {
             setState(() {
               task3 = state.data["tm"];
             });
-          }else if(state.data['mt'] == "9"){
+          } else if (state.data['mt'] == "9") {
             setState(() {
               task4 = state.data["tm"];
             });
@@ -159,8 +159,16 @@ class _RecipePageState extends State<RecipePage> {
                     ],
                   ),
                   width: MediaQuery.of(context).size.width - 40,
-                  child: const TimeLine(
-                    stepValue: 2,
+                  child: TimeLine(
+                    stepValue: task1 == "-1"
+                        ? 1
+                        : task2 == "-1"
+                            ? 2
+                            : task3 == "-1"
+                                ? 3
+                                : task4 == "-1"
+                                    ? 4
+                                    : 0,
                   ),
                 ),
                 const SizedBox(
@@ -205,14 +213,14 @@ class _RecipePageState extends State<RecipePage> {
                         ),
                         TaskElement(
                           taskName: "Task 1",
-                          completed:  task1 == "-1"? true : false,
+                          completed: task1 == "-1" ? true : false,
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         TaskElement(
                           taskName: "Task 2",
-                          completed: task2 == "-1"? true : false,
+                          completed: task2 == "-1" ? true : false,
                         ),
                         const SizedBox(
                           height: 20,
@@ -224,9 +232,9 @@ class _RecipePageState extends State<RecipePage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        const TaskElement(
+                        TaskElement(
                           taskName: "Task 4",
-                          completed: false,
+                          completed: task4 == "-1" ? true : false,
                         ),
                       ],
                     ),
