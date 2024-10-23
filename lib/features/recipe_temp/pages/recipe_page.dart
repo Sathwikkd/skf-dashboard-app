@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skf_project/core/themes/constant_colors.dart';
-import 'package:skf_project/core/widgets/guages/temperature_guage.dart';
+import 'package:skf_project/core/common/widgets/guages/temperature_guage.dart';
 import 'package:skf_project/features/recipe_temp/bloc/recipe_bloc.dart';
 import 'package:skf_project/features/recipe_temp/widgets/task_element.dart';
 import 'package:skf_project/features/recipe_temp/widgets/time_line.dart';

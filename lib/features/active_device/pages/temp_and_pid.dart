@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:skf_project/core/widgets/guages/pid_valve_guage.dart';
-import 'package:skf_project/core/widgets/guages/temperature_guage.dart';
+import 'package:skf_project/core/common/widgets/guages/pid_valve_guage.dart';
+import 'package:skf_project/core/common/widgets/guages/temperature_guage.dart';
 import 'package:skf_project/features/active_device/bloc/temperature_bloc.dart';
 
 class TemperaturePidPage extends StatefulWidget {

@@ -37,10 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^6.2.1
   syncfusion_flutter_sliders: ^27.1.50
-  timeline_tile: ^2.0.0
   mqtt_client: ^9.7.2
   syncfusion_flutter_gauges: ^27.1.50
   flutter_bloc: ^8.1.6
+  fpdart: ^1.1.0
+  http: ^1.2.2
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
