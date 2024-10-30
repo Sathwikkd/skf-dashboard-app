@@ -16,7 +16,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       if(response.isEmpty) {
         return left(Failure(message: 'Unable to Login'));
-      }
+      } 
       return right(response);
     } on ServerException catch (e) {
       return left(Failure(message: e.message));

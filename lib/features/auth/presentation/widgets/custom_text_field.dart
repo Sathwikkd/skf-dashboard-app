@@ -14,6 +14,12 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      validator: (value) {
+        if(value!.isEmpty) {
+          return "$hintText is missing";
+        }
+        return null;
+      },
       cursorColor: AppColors.darkGrey,
       cursorHeight: 20,
       decoration: InputDecoration(

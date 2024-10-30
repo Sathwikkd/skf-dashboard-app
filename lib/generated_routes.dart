@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skf_project/features/active_device/bloc/temperature_bloc.dart';
 import 'package:skf_project/features/active_device/pages/temp_and_pid.dart';
+import 'package:skf_project/features/auth/domain/repository/auth_repository.dart';
+import 'package:skf_project/features/auth/domain/usecase/auth_login_usecase.dart';
+import 'package:skf_project/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:skf_project/features/auth/presentation/pages/login_page.dart';
 import 'package:skf_project/features/home/pages/home_page.dart';
 import 'package:skf_project/features/recipe_temp/bloc/recipe_bloc.dart';
@@ -15,7 +18,12 @@ class Routes {
     switch (settings.name) {
       case "/login":
         return MaterialPageRoute(
-          builder: (context) => const LoginPage(),
+          builder: (context) => BlocProvider(
+            create: (context) => AuthBloc(
+              usecase: AuthLoginUseCase(authLoginRepository: AuthRepository )
+            ),
+            child: const LoginPage(),
+          ),
         );
       case "/home":
         return MaterialPageRoute(

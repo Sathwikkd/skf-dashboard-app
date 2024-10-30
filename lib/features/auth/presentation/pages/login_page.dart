@@ -5,7 +5,7 @@ import "package:skf_project/core/common/loader/loader.dart";
 import "package:skf_project/core/themes/constant_colors.dart";
 import "package:skf_project/features/auth/presentation/bloc/auth_bloc.dart";
 import "package:skf_project/features/auth/presentation/widgets/custom_login_button.dart";
-import "package:skf_project/features/auth/presentation/widgets/text_field.dart";
+import "package:skf_project/features/auth/presentation/widgets/custom_text_field.dart";
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -113,7 +113,14 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             CustomLoginButton(
                               onPressed: () {
-                                if (formKey.currentState!.validate()) {}
+                                if (formKey.currentState!.validate()) {
+                                  context.read<AuthBloc>().add(
+                                        AuthLogin(
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                        ),
+                                      );
+                                }
                               },
                               text: "Login",
                             ),
