@@ -83,13 +83,6 @@ class Routes {
             child: const DrierSelectionPage(),
           ),
         );
-      default:
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => AuthBloc(),
-            child: const LoginPage(),
-          ),
-        );
     }
   }
 }
