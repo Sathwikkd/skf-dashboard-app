@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skf_project/features/drier_selection/pages/drier_selection_page.dart';
 import 'package:skf_project/features/home/widgets/custom_home_page_card.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String drierId;
+  final String plcId;
+  const HomePage({super.key, required this.drierId, required this.plcId});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -57,7 +60,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const CustomHomePageCard(
-                title: "Total Devices",
+                title: "Devices",
                 icon: Icons.electrical_services_rounded,
                 iconSize: 40,
               ),
@@ -66,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.pushNamed(context, "/temp");
                 },
                 child: const CustomHomePageCard(
-                  title: "Active Devices",
+                  title: "Realtime",
                   icon: Icons.electric_bolt_rounded,
                   iconSize: 40,
                 ),
@@ -81,20 +84,27 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
-                onTap: (){
-                  Navigator.pushNamed(context, "/recipe");
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    "/recipe",
+                    arguments: Arguments(
+                      drierId: widget.drierId,
+                      plcId: widget.plcId,
+                    ),
+                  );
                 },
-                child:const CustomHomePageCard(
-                  title: "Recipe Temp",
+                child: const CustomHomePageCard(
+                  title: "Recipe",
                   icon: Icons.thermostat,
                   iconSize: 40,
                 ),
               ),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(context, "/status");
                 },
-                child:const CustomHomePageCard(
+                child: const CustomHomePageCard(
                   title: "Status",
                   icon: Icons.done_all_rounded,
                   iconSize: 40,
@@ -109,33 +119,43 @@ class _HomePageState extends State<HomePage> {
 
   Widget _lastSection() {
     return Container(
-        margin: const EdgeInsets.only(top: 10),
-        decoration: BoxDecoration(
-          color: Colors.grey.shade50,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
-        height: MediaQuery.of(context).size.height - 490,
-        width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _bottomKeys(
-                  Icons.history, "History", Icons.arrow_forward_ios_rounded),
-              _bottomKeys(Icons.add_chart_rounded, "Data Graphs",
-                  Icons.arrow_forward_ios_rounded),
-              _bottomKeys(
-                Icons.info,
-                "Help and Support",
-                Icons.arrow_forward_ios_rounded,
-              )
-            ],
-          ),
+      ),
+      height: MediaQuery.of(context).size.height - 480,
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 10,
+          bottom: 10,
         ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _bottomKeys(
+              Icons.info,
+              "About",
+              Icons.arrow_forward_ios_rounded,
+            ),
+            _bottomKeys(
+              Icons.feedback,
+              "Feedback",
+              Icons.arrow_forward_ios_rounded,
+            ),
+            _bottomKeys(
+              Icons.code,
+              "Developed By",
+              Icons.arrow_forward_ios_rounded,
+            )
+          ],
+        ),
+      ),
     );
   }
 

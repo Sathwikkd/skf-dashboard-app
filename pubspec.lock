@@ -115,14 +115,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  fpdart:
-    dependency: "direct main"
-    description:
-      name: fpdart
-      sha256: "7413acc5a6569a3fe8277928fc7487f3198530f0c4e635d0baef199ea36e8ee9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   google_fonts:
     dependency: "direct main"
     description:
@@ -171,6 +163,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.19.0"
+  jwt_decoder:
+    dependency: "direct main"
+    description:
+      name: jwt_decoder
+      sha256: "54774aebf83f2923b99e6416b4ea915d47af3bde56884eb622de85feabbc559f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -252,13 +252,13 @@ packages:
     source: hosted
     version: "1.9.0"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
-      sha256: fec0d61223fba3154d87759e3cc27fe2c8dc498f6386c6d6fc80d1afdd1bf378
+      sha256: "50c5dd5b6e1aaf6fb3a78b33f6aa3afca52bf903a8a5298f53101fdaee55bbcd"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   path_provider_android:
     dependency: transitive
     description:
@@ -373,14 +373,6 @@ packages:
     description:
       name: syncfusion_flutter_gauges
       sha256: d9095e3eab07cef52c847bf552a8696ecc77bbfbc4aefe55e5225496b670d5a5
-      url: "https://pub.dev"
-    source: hosted
-    version: "27.1.50"
-  syncfusion_flutter_sliders:
-    dependency: "direct main"
-    description:
-      name: syncfusion_flutter_sliders
-      sha256: "32e55895a4ca730629505298f8402024e9a29275a4df52f88633728e91853603"
       url: "https://pub.dev"
     source: hosted
     version: "27.1.50"

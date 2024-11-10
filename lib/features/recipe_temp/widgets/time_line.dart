@@ -4,7 +4,8 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class TimeLine extends StatelessWidget {
   final double stepValue;
-  const TimeLine({super.key , required this.stepValue});
+  final double stepCount;
+  const TimeLine({super.key , required this.stepValue , required this.stepCount});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,8 @@ class TimeLine extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: SfLinearGauge(
                 showTicks: false,
-                minimum: 1,
-                maximum: 4,
+                minimum: 0,
+                maximum: stepCount,
                 interval: 1,
                 axisTrackStyle: LinearAxisTrackStyle(
                   color: Colors.grey.shade300,
@@ -29,30 +30,13 @@ class TimeLine extends StatelessWidget {
                 ),
                 labelOffset: 10,
                 markerPointers: [
-                  LinearShapePointer(
-                    value: 1,
-                    shapeType: LinearShapePointerType.circle,
-                    color: stepValue >= 1? Colors.green: Colors.grey,
-                    position: LinearElementPosition.cross,
-                  ),
-                  LinearShapePointer(
-                    value: 2,
-                    shapeType: LinearShapePointerType.circle,
-                    color: stepValue >= 2 ? Colors.green: Colors.grey,
-                    position: LinearElementPosition.cross,
-                  ),
-                  LinearShapePointer(
-                    value: 3,
-                    shapeType: LinearShapePointerType.circle,
-                    color: stepValue >= 3 ?Colors.green : Colors.grey,
-                    position: LinearElementPosition.cross,
-                  ),
-                  LinearShapePointer(
-                    value: 4,
-                    shapeType: LinearShapePointerType.circle,
-                    color: stepValue >= 4 ?Colors.green : Colors.grey,
-                    position: LinearElementPosition.cross,
-                  ),
+                  for(double i = 0 ; i <= stepCount ; i++)
+                    LinearShapePointer(
+                      value: i,
+                      shapeType: LinearShapePointerType.circle,
+                      color: stepValue >= i? Colors.green: Colors.grey,
+                      position: LinearElementPosition.cross,
+                    ),
                 ],
                 axisLabelStyle: GoogleFonts.nunito(
                   color: Colors.grey.shade600,
@@ -61,10 +45,8 @@ class TimeLine extends StatelessWidget {
                 ),
                 onGenerateLabels: () {
                   return [
-                    const LinearAxisLabel(text: "1", value: 1),
-                    const LinearAxisLabel(text: "2", value: 2),
-                    const LinearAxisLabel(text: "3", value: 3),
-                    const LinearAxisLabel(text: "4", value: 4),
+                    for(double i = 0 ; i <= stepCount ; i++)
+                     LinearAxisLabel(text: "${i.toInt()}", value:i),
                   ];
                 },
                 barPointers:  [

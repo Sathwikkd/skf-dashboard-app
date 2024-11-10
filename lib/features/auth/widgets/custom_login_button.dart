@@ -4,11 +4,11 @@ import 'package:skf_project/core/themes/constant_colors.dart';
 
 class CustomLoginButton extends StatelessWidget {
   final VoidCallback onPressed;
-  final String text;
+  final Widget child;
   const CustomLoginButton({
     super.key,
     required this.onPressed,
-    required this.text,
+    required this.child,
   });
 
   @override
@@ -25,14 +25,7 @@ class CustomLoginButton extends StatelessWidget {
           backgroundColor: AppColors.lightBlue,
           surfaceTintColor: Colors.transparent,
         ),
-        child: Text(
-          text,
-          style: GoogleFonts.nunito(
-            color: AppColors.whiteColor,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        child:child,
       ),
     );
   }

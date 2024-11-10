@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skf_project/core/common/widgets/guages/pid_valve_guage.dart';
 import 'package:skf_project/core/common/widgets/guages/temperature_guage.dart';
+import 'package:skf_project/core/common/widgets/indications/snackbar.dart';
 import 'package:skf_project/features/active_device/bloc/temperature_bloc.dart';
 
 class TemperaturePidPage extends StatefulWidget {
@@ -41,57 +42,58 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
         ),
         child: SingleChildScrollView(
           child: BlocConsumer<TemperatureBloc, TemperatureState>(
+            /// [Bloc Listeners Here]
             listener: (context, state) {
+              /// [FetchDataFromMqttSuccessState]
               if (state is FetchDataFromMqttSuccessState) {
-                // Check topic and update state accordingly
-                if (state.data['mt'] == "0") {
-                  setState(() {
-                    temperatureValue =
-                        double.tryParse(state.data['tmp']) ?? 0.0;
-                  });
-                } else if (state.data['mt'] == "1") {
-                  setState(() {
-                    pidvalveValue = double.tryParse(state.data['pid']) ?? 0.0;
-                  });
-                } 
+                setState(() {
+                  temperatureValue = double.tryParse(state.data['rt_tp']) ?? 0.0;
+                  pidvalveValue = double.tryParse(state.data['rt_pid']) ?? 0.0;
+                });
+                // if (state.data['mt'] == "0") {
+                //   setState(() {
+                //     temperatureValue =
+                //         double.tryParse(state.data['tmp']) ?? 0.0;
+                //   });
+                // } else if (state.data['mt'] == "1") {
+                //   setState(() {
+                //     pidvalveValue = double.tryParse(state.data['pid']) ?? 0.0;
+                //   });
+                // }
               }
-            },
-            builder: (context, state) {
+              /// [FetchDataFromMqttFailedState]
               if (state is FetchDataFromMqttFailureState) {
-                return Center(
-                  child: Text(
-                    'Failed to fetch data.',
-                    style: GoogleFonts.nunito(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                Snackbar.showSnackbar(
+                  message: "Unable to connect to MQTT",
+                  leadingIcon: Icons.error,
+                  context: context,
                 );
               }
+            },
+            /// [Bloc Builder Here]
+            builder: (context, state) {
               return Column(
                 children: [
                   const SizedBox(height: 20),
-                  Text(
-                    "Temperature",
-                    style: GoogleFonts.nunito(
-                      color: Colors.grey.shade700,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                  _customCard(
+                    label: "Temperature",
+                    child: TemperatureGuage(
+                      minimumTemp: 0,
+                      maxTemp: 200,
+                      interval: 20,
+                      temperatureValue: temperatureValue,
                     ),
                   ),
                   const SizedBox(height: 20),
-                  _temperatureCard(),
-                  const SizedBox(height: 20),
-                  Text(
-                    "PID Valve Opening",
-                    style: GoogleFonts.nunito(
-                      color: Colors.grey.shade700,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                  _customCard(
+                    label: "PID Valve Opening",
+                    child: PidValveGuage(
+                      minimumVal: 0,
+                      interval: 5,
+                      maxVal: 20,
+                      pidValveOpening: pidvalveValue,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  _pidCard(),
                   const SizedBox(height: 30),
                 ],
               );
@@ -102,7 +104,7 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
     );
   }
 
-  // App Bar Widget
+  /// [AppBar] widget
   PreferredSizeWidget _appBar() {
     return AppBar(
       leading: IconButton(
@@ -131,8 +133,8 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
     );
   }
 
-  // Temperature card widget
-  Widget _temperatureCard() {
+  /// [Temperature] and [PID] Neomorphic Card
+  Widget _customCard({required Widget child, required String label}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       width: 350,
@@ -142,55 +144,34 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
         boxShadow: [
           BoxShadow(
             offset: const Offset(-6, 6),
-            color: Colors.grey.shade200,
-            blurRadius: 6,
-            spreadRadius: 1,
+            color: Colors.grey.shade300,
+            blurRadius: 4,
+            spreadRadius: 0,
           ),
           const BoxShadow(
             offset: Offset(6, -6),
             color: Colors.white,
-            blurRadius: 6,
+            blurRadius: 4,
             spreadRadius: 1,
           ),
         ],
       ),
-      child: TemperatureGuage(
-        minimumTemp: 0,
-        maxTemp: 200,
-        interval: 20,
-        temperatureValue: temperatureValue,
-      ),
-    );
-  }
-
-// Pid Valve widget card
-  Widget _pidCard() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      width: 350,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          const BoxShadow(
-            offset: Offset(6, -6),
-            color: Colors.white,
-            blurRadius: 6,
-            spreadRadius: 1,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 20,
           ),
-          BoxShadow(
-            offset: const Offset(-6, 6),
-            color: Colors.grey.shade200,
-            blurRadius: 6,
-            spreadRadius: 1,
+          Text(
+            label,
+            style: GoogleFonts.nunito(
+              color: Colors.grey.shade700,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          child,
         ],
-      ),
-      child: PidValveGuage(
-        minimumVal: 0,
-        interval: 5,
-        maxVal: 20,
-        pidValveOpening: pidvalveValue,
       ),
     );
   }

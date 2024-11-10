@@ -9,7 +9,7 @@ class TaskElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width - 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.grey.shade50,

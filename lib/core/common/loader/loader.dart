@@ -9,6 +9,7 @@ class Loader extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
       color: AppColors.lightBlue,
+      strokeCap: StrokeCap.round,
     );
   }
 }
