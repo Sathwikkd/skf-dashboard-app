@@ -5,7 +5,13 @@ import 'package:skf_project/features/status/bloc/status_bloc.dart';
 import 'package:skf_project/features/status/widgets/status_page_card.dart';
 
 class StatusPage extends StatefulWidget {
-  const StatusPage({super.key});
+  final String drierId;
+  final String plcId;
+  const StatusPage({
+    super.key,
+    required this.drierId,
+    required this.plcId,
+  });
 
   @override
   State<StatusPage> createState() => _StatusPageState();
@@ -22,7 +28,11 @@ class _StatusPageState extends State<StatusPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<StatusBloc>(context).add(FetchStatusDataEvent());
+    BlocProvider.of<StatusBloc>(context).add(
+      FetchStatusDataEvent(
+        drierId: widget.drierId,
+      ),
+    );
   }
 
   @override

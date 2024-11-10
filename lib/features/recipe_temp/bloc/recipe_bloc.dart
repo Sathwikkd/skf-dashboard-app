@@ -15,7 +15,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
      _mqttStreamController = StreamController<StreamRecipeData>();
     on<FetchRecipeEvent>((event, emit) async {
       try {
-        mqttClientManager.initilizeMqtt();
+        mqttClientManager.initilizeMqtt(event.drierId);
         await emit.forEach<StreamRecipeData>(
           _mqttStreamController.stream,
           onData: (data) {

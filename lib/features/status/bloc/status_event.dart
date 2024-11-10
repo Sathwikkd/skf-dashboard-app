@@ -4,7 +4,10 @@ part of 'status_bloc.dart';
 sealed class StatusEvent {}
 
 
-class FetchStatusDataEvent extends StatusEvent{}
+class FetchStatusDataEvent extends StatusEvent{
+  final String drierId;
+  FetchStatusDataEvent({required this.drierId});
+}
 
 
 class StopStatusStreamEvent extends StatusEvent{}

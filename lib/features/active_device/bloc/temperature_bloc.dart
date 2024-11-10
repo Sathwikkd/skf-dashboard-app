@@ -38,7 +38,7 @@ class TemperatureBloc extends Bloc<TemperatureEvent, TemperatureState> {
   Future<void> _fetchDataFromMqtt(FetchDataFromMqttEvent event , Emitter<TemperatureState> emit) async {
       try {
         // Initilizing mqtt client
-        mqttClientManager.initilizeMqtt();
+        mqttClientManager.initilizeMqtt(event.drierId);
         await emit.forEach<RealtimeStreamData>(
           _mqttStreamController.stream,
           onData: (data) {

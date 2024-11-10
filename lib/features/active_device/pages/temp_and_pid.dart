@@ -7,7 +7,13 @@ import 'package:skf_project/core/common/widgets/indications/snackbar.dart';
 import 'package:skf_project/features/active_device/bloc/temperature_bloc.dart';
 
 class TemperaturePidPage extends StatefulWidget {
-  const TemperaturePidPage({super.key});
+  final String drierId;
+  final String plcId;
+  const TemperaturePidPage({
+    super.key,
+    required this.drierId,
+    required this.plcId,
+  });
 
   @override
   State<TemperaturePidPage> createState() => _TemperaturePidPageState();
@@ -21,7 +27,11 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
   void initState() {
     super.initState();
     // Fetching data from MQTT on init
-    BlocProvider.of<TemperatureBloc>(context).add(FetchDataFromMqttEvent());
+    BlocProvider.of<TemperatureBloc>(context).add(
+      FetchDataFromMqttEvent(
+        drierId: widget.drierId,
+      ),
+     );
   }
 
   @override
@@ -47,7 +57,8 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
               /// [FetchDataFromMqttSuccessState]
               if (state is FetchDataFromMqttSuccessState) {
                 setState(() {
-                  temperatureValue = double.tryParse(state.data['rt_tp']) ?? 0.0;
+                  temperatureValue =
+                      double.tryParse(state.data['rt_tp']) ?? 0.0;
                   pidvalveValue = double.tryParse(state.data['rt_pid']) ?? 0.0;
                 });
                 // if (state.data['mt'] == "0") {
@@ -61,6 +72,7 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
                 //   });
                 // }
               }
+
               /// [FetchDataFromMqttFailedState]
               if (state is FetchDataFromMqttFailureState) {
                 Snackbar.showSnackbar(
@@ -70,6 +82,7 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
                 );
               }
             },
+
             /// [Bloc Builder Here]
             builder: (context, state) {
               return Column(

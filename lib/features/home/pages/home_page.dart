@@ -66,7 +66,14 @@ class _HomePageState extends State<HomePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/temp");
+                  Navigator.pushNamed(
+                    context,
+                    "/temp",
+                    arguments: Arguments(
+                      drierId: widget.drierId,
+                      plcId: widget.plcId,
+                    ),
+                  );
                 },
                 child: const CustomHomePageCard(
                   title: "Realtime",
@@ -102,7 +109,14 @@ class _HomePageState extends State<HomePage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/status");
+                  Navigator.pushNamed(
+                    context,
+                    "/status",
+                    arguments: Arguments(
+                      drierId: widget.drierId,
+                      plcId: widget.plcId,
+                    ),
+                  );
                 },
                 child: const CustomHomePageCard(
                   title: "Status",

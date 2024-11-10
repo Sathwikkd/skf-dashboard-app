@@ -15,7 +15,7 @@ class StatusBloc extends Bloc<StatusEvent, StatusState> {
     _mqttStreamController = StreamController<StreamStatusData>();
     on<FetchStatusDataEvent>((event , emit) async {
         try {
-        mqttClientManager.initilizeMqtt();
+        mqttClientManager.initilizeMqtt(event.drierId);
         await emit.forEach<StreamStatusData>(
           _mqttStreamController.stream,
           onData: (data) {

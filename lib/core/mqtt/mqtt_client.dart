@@ -6,7 +6,7 @@ class MqttClientManager {
    MqttServerClient? client;
   Function(String topic, String payload)? onMessageReceived;
 
-  Future<void> initilizeMqtt() async {
+  Future<void> initilizeMqtt(String subscribeTopic) async {
     // Initilizing all the required values of the client
     client =
         MqttServerClient.withPort("skfplc.vsensetech.in", "test_123", 1883);
@@ -34,7 +34,7 @@ class MqttClientManager {
     }
     // Checking wheather the connection is alive or not
     if (client!.connectionStatus!.state == MqttConnectionState.connected) {
-      _subscribeToTopic();
+      _subscribeToTopic(subscribeTopic);
       print("Connected to Mqtt");
     } else {
       print("Unable to Connect");
@@ -63,8 +63,8 @@ class MqttClientManager {
     print("pong");
   }
 
-  void _subscribeToTopic() {
-    client!.subscribe('app/vs24skf01', MqttQos.atLeastOnce);
+  void _subscribeToTopic(String subTop) {
+    client!.subscribe(subTop, MqttQos.atLeastOnce);
     
     client!.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;

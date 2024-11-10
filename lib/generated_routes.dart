@@ -36,43 +36,50 @@ class Routes {
           );
         }
       case "/temp":
+      if(args is Arguments){
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) =>
                 TemperatureBloc(mqttClientManager: MqttClientManager()),
-            child: const TemperaturePidPage(),
-          ),
-        );
-      case "/recipe":
-      if(args is Arguments){
-        return MaterialPageRoute(
-          builder: (context) => MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => RecipeBloc(
-                  mqttClientManager: MqttClientManager(),
-                ),
-              ),
-              BlocProvider(
-                create: (context) => StepcountBloc(),
-              ),
-            ],
-            child: RecipePage(
-              drierId: args.drierId,
-              plcId: args.plcId,
-            ),
+            child:  TemperaturePidPage(drierId: args.drierId , plcId: args.plcId,),
           ),
         );
       }
-      case "/status":
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => StatusBloc(
-              mqttClientManager: MqttClientManager(),
+      case "/recipe":
+        if (args is Arguments) {
+          return MaterialPageRoute(
+            builder: (context) => MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => RecipeBloc(
+                    mqttClientManager: MqttClientManager(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => StepcountBloc(),
+                ),
+              ],
+              child: RecipePage(
+                drierId: args.drierId,
+                plcId: args.plcId,
+              ),
             ),
-            child: const StatusPage(),
-          ),
-        );
+          );
+        }
+      case "/status":
+        if (args is Arguments) {
+          return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => StatusBloc(
+                mqttClientManager: MqttClientManager(),
+              ),
+              child: StatusPage(
+                drierId: args.drierId,
+                plcId: args.plcId,
+              ),
+            ),
+          );
+        }
       case "/drier":
         return MaterialPageRoute(
           builder: (context) => MultiBlocProvider(
