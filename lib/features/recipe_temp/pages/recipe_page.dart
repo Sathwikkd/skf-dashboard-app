@@ -82,6 +82,12 @@ class _RecipePageState extends State<RecipePage> {
       child: Scaffold(
         backgroundColor: AppColors.lightBlue,
         appBar: AppBar(
+          leading: IconButton(onPressed: (){
+            BlocProvider.of<RecipeBloc>(context).add(
+              StopRecipeFetchEvent(),
+            );
+            Navigator.pop(context);
+          }, icon:const Icon(Icons.arrow_back , color: Colors.white,size: 30,),),
           title: Text(
             "Recipe Page",
             style: GoogleFonts.nunito(

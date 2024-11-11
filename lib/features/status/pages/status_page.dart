@@ -31,6 +31,7 @@ class _StatusPageState extends State<StatusPage> {
     BlocProvider.of<StatusBloc>(context).add(
       FetchStatusDataEvent(
         drierId: widget.drierId,
+        plcId: widget.plcId,
       ),
     );
   }
@@ -143,83 +144,106 @@ class _StatusPageState extends State<StatusPage> {
               topRight: Radius.circular(20),
             ),
           ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Image.asset(
-                      "assets/blower.png",
-                      width: 300,
-                    ),
+          child: BlocBuilder<StatusBloc, StatusState>(
+            builder: (context, state) {
+              if (state is FetchStatusDataFailedState) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text(
+                          "Something Went Wrong...",
+                          style: GoogleFonts.nunito(
+                            color: Colors.grey.shade500,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 20,
+                );
+              }
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Image.asset(
+                          "assets/blower.png",
+                          width: 300,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Status",
+                        style: GoogleFonts.nunito(
+                          color: Colors.grey.shade700,
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StatusPageCard(
+                        title: "Blower Trip Status",
+                        subtitle: "Represents blower status",
+                        status: blowerTS,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StatusPageCard(
+                        title: "Elevator Trip Status",
+                        subtitle: "Represents elevator status",
+                        status: elevatorTS,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StatusPageCard(
+                        title: "Rotor Trip Status",
+                        subtitle: "Represents rotor status",
+                        status: rotorTS,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StatusPageCard(
+                        title: "Blower Run Status",
+                        subtitle: "Represents blower status",
+                        status: blowerRS,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StatusPageCard(
+                        title: "Elevator Run Status",
+                        subtitle: "Represents elevator status",
+                        status: elevatorRS,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StatusPageCard(
+                        title: "Rotor Run Status",
+                        subtitle: "Represents rotor status",
+                        status: rotorRS,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Status",
-                    style: GoogleFonts.nunito(
-                      color: Colors.grey.shade700,
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  StatusPageCard(
-                    title: "Blower Trip Status",
-                    subtitle: "Represents blower status",
-                    status: blowerTS,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  StatusPageCard(
-                    title: "Elevator Trip Status",
-                    subtitle: "Represents elevator status",
-                    status: elevatorTS,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  StatusPageCard(
-                    title: "Rotor Trip Status",
-                    subtitle: "Represents rotor status",
-                    status: rotorTS,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  StatusPageCard(
-                    title: "Blower Run Status",
-                    subtitle: "Represents blower status",
-                    status: blowerRS,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  StatusPageCard(
-                    title: "Elevator Run Status",
-                    subtitle: "Represents elevator status",
-                    status: elevatorRS,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  StatusPageCard(
-                    title: "Rotor Run Status",
-                    subtitle: "Represents rotor status",
-                    status: rotorRS,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),

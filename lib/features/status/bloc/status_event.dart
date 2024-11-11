@@ -6,7 +6,8 @@ sealed class StatusEvent {}
 
 class FetchStatusDataEvent extends StatusEvent{
   final String drierId;
-  FetchStatusDataEvent({required this.drierId});
+  final String plcId;
+  FetchStatusDataEvent({required this.drierId , required this.plcId});
 }
 
 

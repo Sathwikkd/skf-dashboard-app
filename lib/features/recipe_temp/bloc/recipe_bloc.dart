@@ -35,7 +35,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
       _mqttStreamController.add(StreamRecipeData(data: data, topic: topic));
     };
     on<StopRecipeFetchEvent>((event, emit) async {
-      await mqttClientManager.disconnect(); // Call a method to close the MQTT connection.
+      await mqttClientManager.disconnect();
       await _mqttStreamController.close();
     });
   }

@@ -3,7 +3,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skf_project/core/constants/routes.dart';
 import 'package:skf_project/core/mqtt/mqtt_client.dart';
+import 'package:http/http.dart' as http;
 
 part 'status_event.dart';
 part 'status_state.dart';
@@ -14,7 +16,14 @@ class StatusBloc extends Bloc<StatusEvent, StatusState> {
   StatusBloc({required this.mqttClientManager}) : super(StatusInitial()) {
     _mqttStreamController = StreamController<StreamStatusData>();
     on<FetchStatusDataEvent>((event , emit) async {
-        try {
+        try { 
+          final jsonResponse = await http.get(Uri.parse("${HttpRoutes.fetchStatus}/${event.plcId}/${event.drierId}"));
+          var response = jsonDecode(jsonResponse.body);
+        if(jsonResponse.statusCode != 200){
+          emit(FetchStatusDataFailedState());
+          return;
+        }
+        emit(FetchStatusDataSuccessState(data: response['statuses'], topic: ""));
         mqttClientManager.initilizeMqtt(event.drierId);
         await emit.forEach<StreamStatusData>(
           _mqttStreamController.stream,
