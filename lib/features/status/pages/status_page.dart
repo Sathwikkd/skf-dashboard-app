@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skf_project/core/common/loader/loader.dart';
 import 'package:skf_project/features/status/bloc/status_bloc.dart';
 import 'package:skf_project/features/status/widgets/status_page_card.dart';
 
@@ -78,32 +79,6 @@ class _StatusPageState extends State<StatusPage> {
               rotorRS = state.data['st_rt_rn'];
             }
           });
-
-          // if (state.data['mt'] == "10") {
-          //   setState(() {
-          //     blowerTS = state.data['st'] ?? "81";
-          //   });
-          // } else if (state.data['mt'] == "11") {
-          //   setState(() {
-          //     elevatorTS = state.data['st'] ?? "81";
-          //   });
-          // } else if (state.data['mt'] == "12") {
-          //   setState(() {
-          //     rotorTS = state.data['st'] ?? "81";
-          //   });
-          // } else if (state.data['mt'] == "13") {
-          //   setState(() {
-          //     blowerRS = state.data['st'] ?? "81";
-          //   });
-          // } else if (state.data['mt'] == "14") {
-          //   setState(() {
-          //     elevatorRS = state.data['st'] ?? "81";
-          //   });
-          // } else if (state.data['mt'] == "15") {
-          //   setState(() {
-          //     rotorRS = state.data['st'] ?? "81";
-          //   });
-          // }
         }
       },
       child: Scaffold(
@@ -161,8 +136,40 @@ class _StatusPageState extends State<StatusPage> {
                           ),
                         ),
                       ),
+                      ElevatedButton(
+                        onPressed: () {
+                          BlocProvider.of<StatusBloc>(context).add(
+                            FetchStatusDataEvent(
+                              drierId: widget.drierId,
+                              plcId: widget.plcId,
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue.shade400,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          textStyle: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        child: Text(
+                          "Retry",
+                          style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
                     ],
                   ),
+                );
+              }
+              if(state is FetchStatusDataLoadingState){
+                return const Center(
+                  child: Loader(),
                 );
               }
               return SingleChildScrollView(
@@ -173,8 +180,8 @@ class _StatusPageState extends State<StatusPage> {
                     children: [
                       Center(
                         child: Image.asset(
-                          "assets/blower.png",
-                          width: 300,
+                          "assets/status.jpeg",
+                          width: 250,
                         ),
                       ),
                       const SizedBox(

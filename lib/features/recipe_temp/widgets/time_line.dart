@@ -20,7 +20,7 @@ class TimeLine extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: SfLinearGauge(
                 showTicks: false,
-                minimum: 0,
+                minimum: 1,
                 maximum: stepCount,
                 interval: 1,
                 axisTrackStyle: LinearAxisTrackStyle(
@@ -30,7 +30,7 @@ class TimeLine extends StatelessWidget {
                 ),
                 labelOffset: 10,
                 markerPointers: [
-                  for(double i = 0 ; i <= stepCount ; i++)
+                  for(double i = 1 ; i <= stepCount ; i++)
                     LinearShapePointer(
                       value: i,
                       shapeType: LinearShapePointerType.circle,
@@ -45,7 +45,7 @@ class TimeLine extends StatelessWidget {
                 ),
                 onGenerateLabels: () {
                   return [
-                    for(double i = 0 ; i <= stepCount ; i++)
+                    for(double i = 1 ; i <= stepCount ; i++)
                      LinearAxisLabel(text: "${i.toInt()}", value:i),
                   ];
                 },

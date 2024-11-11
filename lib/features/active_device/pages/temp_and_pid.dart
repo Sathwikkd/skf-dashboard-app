@@ -66,7 +66,6 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
                       temperatureValue = newTemperature;
                     }
                   }
-
                   // Update `pidvalveValue` only if a valid value is received
                   if (state.data.containsKey('rt_pid') &&
                       state.data['rt_pid'] != null) {
@@ -77,29 +76,16 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
                     }
                   }
                 });
-
-                // if (state.data['mt'] == "0") {
-                //   setState(() {
-                //     temperatureValue =
-                //         double.tryParse(state.data['tmp']) ?? 0.0;
-                //   });
-                // } else if (state.data['mt'] == "1") {
-                //   setState(() {
-                //     pidvalveValue = double.tryParse(state.data['pid']) ?? 0.0;
-                //   });
-                // }
               }
-
               /// [FetchDataFromMqttFailedState]
               if (state is FetchDataFromMqttFailureState) {
                 Snackbar.showSnackbar(
-                  message: "Unable to connect to MQTT",
+                  message: state.message,
                   leadingIcon: Icons.error,
                   context: context,
                 );
               }
             },
-
             /// [Bloc Builder Here]
             builder: (context, state) {
               return Column(

@@ -47,10 +47,10 @@ class TemperatureBloc extends Bloc<TemperatureEvent, TemperatureState> {
               topic: data.topic,
             );
           },
-          onError: (error, stackTrace) => FetchDataFromMqttFailureState(),
+          onError: (error, stackTrace) => FetchDataFromMqttFailureState(message: "Unable To Stream Data..."),
         );
       } catch (e) {
-        emit(FetchDataFromMqttFailureState());
+        emit(FetchDataFromMqttFailureState(message: "Unable To Stream Data..."));
       }
   }
 

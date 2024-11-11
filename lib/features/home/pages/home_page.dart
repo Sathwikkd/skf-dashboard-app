@@ -161,7 +161,9 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Aboutus()),
+                  MaterialPageRoute(
+                    builder: (context) => const Aboutus(),
+                  ),
                 );
               },
               child: _bottomKeys(
@@ -177,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                   MaterialPageRoute(
                     builder: (context) => BlocProvider(
                       create: (context) => HomeBloc(),
-                      child:const FeedbackForm(),
+                      child: const FeedbackForm(),
                     ),
                   ),
                 );
@@ -189,8 +191,13 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Developers()));
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>const Developers(),
+                  ),
+                );
               },
               child: _bottomKeys(
                 Icons.code,

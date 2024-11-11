@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 void main() async {
   final String token = await _initilize();
   runApp(MyApp(token: token,));
-}
+}  
 
 Future<String> _initilize() async {
     WidgetsFlutterBinding.ensureInitialized();

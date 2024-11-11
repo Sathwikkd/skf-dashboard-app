@@ -22,9 +22,7 @@ class StepcountBloc extends Bloc<StepcountEvent, StepcountState> {
       }
       final jsonResponse = await http.get(Uri.parse("${HttpRoutes.drierStepCount}/${event.drierId}"));
       final response = jsonDecode(jsonResponse.body);
-      print(response);
       if(jsonResponse.statusCode == 200){
-        print('yes');
         emit(FetchStepCountSuccessState(stepCount: response["recipe_step_count"]));
         return;
       }

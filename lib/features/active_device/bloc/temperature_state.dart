@@ -11,4 +11,7 @@ final class FetchDataFromMqttSuccessState extends TemperatureState{
   FetchDataFromMqttSuccessState({required this.data , required this.topic});
 }
 
-final class FetchDataFromMqttFailureState extends TemperatureState{}
+final class FetchDataFromMqttFailureState extends TemperatureState{
+  final String message;
+  FetchDataFromMqttFailureState({required this.message});
+}

@@ -17,13 +17,16 @@ class StatusBloc extends Bloc<StatusEvent, StatusState> {
     _mqttStreamController = StreamController<StreamStatusData>();
     on<FetchStatusDataEvent>((event , emit) async {
         try { 
+          emit(FetchStatusDataLoadingState());
           final jsonResponse = await http.get(Uri.parse("${HttpRoutes.fetchStatus}/${event.plcId}/${event.drierId}"));
           var response = jsonDecode(jsonResponse.body);
         if(jsonResponse.statusCode != 200){
           emit(FetchStatusDataFailedState());
           return;
         }
-        emit(FetchStatusDataSuccessState(data: response['statuses'], topic: ""));
+        for(int i = 0 ; i < response.length ; i++){
+          emit(FetchStatusDataSuccessState(data: {response[i]['reg_type']: response[i]['reg_value']}, topic: ""));
+        }
         mqttClientManager.initilizeMqtt(event.drierId);
         await emit.forEach<StreamStatusData>(
           _mqttStreamController.stream,

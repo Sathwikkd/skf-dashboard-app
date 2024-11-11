@@ -14,3 +14,6 @@ final class FetchStatusDataSuccessState extends StatusState{
 
 
 final class FetchStatusDataFailedState extends StatusState{}
+
+
+final class FetchStatusDataLoadingState extends StatusState{}

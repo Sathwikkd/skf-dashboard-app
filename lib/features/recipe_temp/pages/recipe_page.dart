@@ -37,11 +37,11 @@ class _RecipePageState extends State<RecipePage> {
       ),
     );
   }
-
-  int stepCount = 0  ;
+  int stepCount = 0;
   double temperatureValue = 0;
-  String timeValue = "00:00";
+  String timeValue = "0";
   String stepValue = "0";
+  bool isConnected = false;
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
@@ -56,6 +56,7 @@ class _RecipePageState extends State<RecipePage> {
         BlocListener<RecipeBloc, RecipeState>(listener: (context, state) {
           if (state is FetchRecipeSuccessState) {
             setState(() {
+              isConnected = true;
               // Update `stepValue` only if it is not null
               if (state.data.containsKey('rcp_stp') &&
                   state.data['rcp_stp'] != null) {
@@ -82,12 +83,53 @@ class _RecipePageState extends State<RecipePage> {
       child: Scaffold(
         backgroundColor: AppColors.lightBlue,
         appBar: AppBar(
-          leading: IconButton(onPressed: (){
-            BlocProvider.of<RecipeBloc>(context).add(
-              StopRecipeFetchEvent(),
-            );
-            Navigator.pop(context);
-          }, icon:const Icon(Icons.arrow_back , color: Colors.white,size: 30,),),
+          actions: [
+            Icon(
+              !isConnected
+                  ? Icons.network_wifi_1_bar_sharp
+                  : Icons.network_wifi_sharp,
+              color: !isConnected ? Colors.red : Colors.green,
+              size: 30,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            IconButton(
+              onPressed: () {
+                BlocProvider.of<StepcountBloc>(context).add(
+                  FetchStepCount(
+                    drierId: widget.drierId,
+                  ),
+                );
+                BlocProvider.of<RecipeBloc>(context).add(
+                  FetchRecipeEvent(
+                    drierId: widget.drierId,
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.refresh_rounded,
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+          leading: IconButton(
+            onPressed: () {
+              BlocProvider.of<RecipeBloc>(context).add(
+                StopRecipeFetchEvent(),
+              );
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              size: 30,
+            ),
+          ),
           title: Text(
             "Recipe Page",
             style: GoogleFonts.nunito(

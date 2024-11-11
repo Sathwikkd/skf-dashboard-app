@@ -39,10 +39,6 @@ class DrierSelectionCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          // subtitle: Text(drierId , style: GoogleFonts.nunito(
-          //   color: Colors.grey.shade500,
-          //   fontWeight: FontWeight.bold,
-          // ),),
           trailing:const Icon(Icons.arrow_outward_rounded , size: 30,),
         ),
       ),
