@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skf_project/features/drier_selection/pages/drier_selection_page.dart';
+import 'package:skf_project/features/home/bloc/home_bloc.dart';
+import 'package:skf_project/features/home/pages/aboutus.dart';
+import 'package:skf_project/features/home/pages/developers.dart';
+import 'package:skf_project/features/home/pages/feedback.dart';
 import 'package:skf_project/features/home/widgets/custom_home_page_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -152,20 +157,46 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _bottomKeys(
-              Icons.info,
-              "About",
-              Icons.arrow_forward_ios_rounded,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Aboutus()),
+                );
+              },
+              child: _bottomKeys(
+                Icons.info,
+                "About",
+                Icons.arrow_forward_ios_rounded,
+              ),
             ),
-            _bottomKeys(
-              Icons.feedback,
-              "Feedback",
-              Icons.arrow_forward_ios_rounded,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (context) => HomeBloc(),
+                      child:const FeedbackForm(),
+                    ),
+                  ),
+                );
+              },
+              child: _bottomKeys(
+                Icons.feedback,
+                "Feedback",
+                Icons.arrow_forward_ios_rounded,
+              ),
             ),
-            _bottomKeys(
-              Icons.code,
-              "Developed By",
-              Icons.arrow_forward_ios_rounded,
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Developers()));
+              },
+              child: _bottomKeys(
+                Icons.code,
+                "Developed By",
+                Icons.arrow_forward_ios_rounded,
+              ),
             )
           ],
         ),
