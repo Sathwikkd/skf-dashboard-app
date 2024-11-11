@@ -31,7 +31,7 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
       FetchDataFromMqttEvent(
         drierId: widget.drierId,
       ),
-     );
+    );
   }
 
   @override
@@ -57,10 +57,27 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
               /// [FetchDataFromMqttSuccessState]
               if (state is FetchDataFromMqttSuccessState) {
                 setState(() {
-                  temperatureValue =
-                      double.tryParse(state.data['rt_tp']) ?? 0.0;
-                  pidvalveValue = double.tryParse(state.data['rt_pid']) ?? 0.0;
+                  // Update `temperatureValue` only if a valid value is received
+                  if (state.data.containsKey('rt_tp') &&
+                      state.data['rt_tp'] != null) {
+                    double? newTemperature =
+                        double.tryParse(state.data['rt_tp'].toString());
+                    if (newTemperature != null) {
+                      temperatureValue = newTemperature;
+                    }
+                  }
+
+                  // Update `pidvalveValue` only if a valid value is received
+                  if (state.data.containsKey('rt_pid') &&
+                      state.data['rt_pid'] != null) {
+                    double? newPidValve =
+                        double.tryParse(state.data['rt_pid'].toString());
+                    if (newPidValve != null) {
+                      pidvalveValue = newPidValve;
+                    }
+                  }
                 });
+
                 // if (state.data['mt'] == "0") {
                 //   setState(() {
                 //     temperatureValue =

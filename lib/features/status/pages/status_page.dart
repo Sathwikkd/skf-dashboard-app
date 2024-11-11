@@ -40,31 +40,69 @@ class _StatusPageState extends State<StatusPage> {
     return BlocListener<StatusBloc, StatusState>(
       listener: (context, state) {
         if (state is FetchStatusDataSuccessState) {
-          if (state.data['mt'] == "10") {
-            setState(() {
-              blowerTS = state.data['st'] ?? "81";
-            });
-          } else if (state.data['mt'] == "11") {
-            setState(() {
-              elevatorTS = state.data['st'] ?? "81";
-            });
-          } else if (state.data['mt'] == "12") {
-            setState(() {
-              rotorTS = state.data['st'] ?? "81";
-            });
-          } else if (state.data['mt'] == "13") {
-            setState(() {
-              blowerRS = state.data['st'] ?? "81";
-            });
-          } else if (state.data['mt'] == "14") {
-            setState(() {
-              elevatorRS = state.data['st'] ?? "81";
-            });
-          } else if (state.data['mt'] == "15") {
-            setState(() {
-              rotorRS = state.data['st'] ?? "81";
-            });
-          }
+          setState(() {
+            // Update `blowerTS` only if a valid value is received
+            if (state.data.containsKey('st_bl_trp') &&
+                state.data['st_bl_trp'] != null) {
+              blowerTS = state.data['st_bl_trp'];
+            }
+
+            // Update `elevatorTS` only if a valid value is received
+            if (state.data.containsKey('st_el_trp') &&
+                state.data['st_el_trp'] != null) {
+              elevatorTS = state.data['st_el_trp'];
+            }
+
+            // Update `rotorTS` only if a valid value is received
+            if (state.data.containsKey('st_rt_trp') &&
+                state.data['st_rt_trp'] != null) {
+              rotorTS = state.data['st_rt_trp'];
+            }
+
+            // Update `blowerRS` only if a valid value is received
+            if (state.data.containsKey('st_bl_rn') &&
+                state.data['st_bl_rn'] != null) {
+              blowerRS = state.data['st_bl_rn'];
+            }
+
+            // Update `elevatorRS` only if a valid value is received
+            if (state.data.containsKey('st_el_rn') &&
+                state.data['st_el_rn'] != null) {
+              elevatorRS = state.data['st_el_rn'];
+            }
+
+            // Update `rotorRS` only if a valid value is received
+            if (state.data.containsKey('st_rt_rn') &&
+                state.data['st_rt_rn'] != null) {
+              rotorRS = state.data['st_rt_rn'];
+            }
+          });
+
+          // if (state.data['mt'] == "10") {
+          //   setState(() {
+          //     blowerTS = state.data['st'] ?? "81";
+          //   });
+          // } else if (state.data['mt'] == "11") {
+          //   setState(() {
+          //     elevatorTS = state.data['st'] ?? "81";
+          //   });
+          // } else if (state.data['mt'] == "12") {
+          //   setState(() {
+          //     rotorTS = state.data['st'] ?? "81";
+          //   });
+          // } else if (state.data['mt'] == "13") {
+          //   setState(() {
+          //     blowerRS = state.data['st'] ?? "81";
+          //   });
+          // } else if (state.data['mt'] == "14") {
+          //   setState(() {
+          //     elevatorRS = state.data['st'] ?? "81";
+          //   });
+          // } else if (state.data['mt'] == "15") {
+          //   setState(() {
+          //     rotorRS = state.data['st'] ?? "81";
+          //   });
+          // }
         }
       },
       child: Scaffold(

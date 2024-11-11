@@ -9,7 +9,7 @@ class StatusPageCard extends StatelessWidget {
       {super.key,
       required this.title,
       required this.subtitle,
-      this.status = "81"});
+      this.status = "0"});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class StatusPageCard extends StatelessWidget {
           height: 20,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: status == "81"
+            color: status == "0"
                 ? const Color.fromARGB(126, 244, 67, 79)
                 : const Color.fromARGB(133, 76, 175, 79),
           ),
@@ -64,11 +64,11 @@ class StatusPageCard extends StatelessWidget {
                 width: 15,
                 height: 15,
                 decoration: BoxDecoration(
-                    color: status == "81" ? Colors.red : Colors.green,
+                    color: status == "0" ? Colors.red : Colors.green,
                     borderRadius: BorderRadius.circular(20)),
               ),
               Text(
-                status == "81" ? "OFF" : "ON",
+                status == "0" ? "OFF" : "ON",
                 style: const TextStyle(
                   color: Colors.white,
                 ),
