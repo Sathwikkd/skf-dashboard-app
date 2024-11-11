@@ -25,6 +25,7 @@ class _StatusPageState extends State<StatusPage> {
   String blowerRS = "0";
   String elevatorRS = "0";
   String rotorRS = "0";
+  bool isConnected = false;
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _StatusPageState extends State<StatusPage> {
       listener: (context, state) {
         if (state is FetchStatusDataSuccessState) {
           setState(() {
+            isConnected = true;
             // Update `blowerTS` only if a valid value is received
             if (state.data.containsKey('st_bl_trp') &&
                 state.data['st_bl_trp'] != null) {
@@ -84,6 +86,36 @@ class _StatusPageState extends State<StatusPage> {
       child: Scaffold(
         backgroundColor: Colors.blue.shade400,
         appBar: AppBar(
+          actions: [
+            Icon(
+              !isConnected
+                  ? Icons.network_wifi_1_bar_sharp
+                  : Icons.network_wifi_sharp,
+              color: !isConnected ? Colors.red : Colors.green,
+              size: 30,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            IconButton(
+              onPressed: () {
+                BlocProvider.of<StatusBloc>(context).add(
+                  FetchStatusDataEvent(
+                    drierId: widget.drierId,
+                    plcId: widget.plcId,
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.refresh_rounded,
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
           leading: IconButton(
             onPressed: () {
               BlocProvider.of<StatusBloc>(context).add(StopStatusStreamEvent());

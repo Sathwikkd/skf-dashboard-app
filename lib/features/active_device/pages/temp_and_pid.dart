@@ -22,6 +22,7 @@ class TemperaturePidPage extends StatefulWidget {
 class _TemperaturePidPageState extends State<TemperaturePidPage> {
   double temperatureValue = 0.0;
   double pidvalveValue = 0.0;
+  bool isConnected = false;
 
   @override
   void initState() {
@@ -57,6 +58,7 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
               /// [FetchDataFromMqttSuccessState]
               if (state is FetchDataFromMqttSuccessState) {
                 setState(() {
+                  isConnected = true;
                   // Update `temperatureValue` only if a valid value is received
                   if (state.data.containsKey('rt_tp') &&
                       state.data['rt_tp'] != null) {
@@ -123,6 +125,35 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
   /// [AppBar] widget
   PreferredSizeWidget _appBar() {
     return AppBar(
+      actions: [
+            Icon(
+              !isConnected
+                  ? Icons.network_wifi_1_bar_sharp
+                  : Icons.network_wifi_sharp,
+              color: !isConnected ? Colors.red : Colors.green,
+              size: 30,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            IconButton(
+              onPressed: () {
+                BlocProvider.of<TemperatureBloc>(context).add(
+                  FetchDataFromMqttEvent(
+                    drierId: widget.drierId,
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.refresh_rounded,
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
       leading: IconButton(
         onPressed: () {
           BlocProvider.of<TemperatureBloc>(context).add(StopStreamEvent());
