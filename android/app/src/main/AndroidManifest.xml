@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="skf_project"
+        android:label="SKF"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

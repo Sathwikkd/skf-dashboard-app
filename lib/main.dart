@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: Routes.onGenerate,
       initialRoute: token.isEmpty ? "/login" : "/drier",
+      title: "SKF",
     );
   }
 }

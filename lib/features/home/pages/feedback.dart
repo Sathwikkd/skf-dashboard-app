@@ -88,95 +88,97 @@ class _FeedbackFormState extends State<FeedbackForm> {
                   child: Loader(),
                 );
               }
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      "Get in touch with us",
-                      style: GoogleFonts.nunito(
-                          fontSize: 28, fontWeight: FontWeight.bold),
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        "Get in touch with us",
+                        style: GoogleFonts.nunito(
+                            fontSize: 28, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  const Icon(
-                    Icons.contact_page_outlined,
-                    size: 35,
-                    color: Colors.blue,
-                  ),
-                 const  SizedBox(
-                    height: 30,
-                  ),
-                  SizedBox(
-                    //height: 30,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20),
-                      child: TextFormField(
-                        controller: _feedbackController,
-                        minLines: 5,
-                        maxLines: 8,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(_maxWords),
-                        ],
-                        textAlign: TextAlign.start,
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          //  contentPadding: EdgeInsets.only(bottom: 160),
-
-                          border: const OutlineInputBorder(),
-                          hintText: ' Type Your Feedback Here..',
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                               const  BorderSide(color: Colors.black, width: 1),
-                          ),
-
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              color: Colors.blue,
-                              width: 1.0,
+                    const Icon(
+                      Icons.contact_page_outlined,
+                      size: 35,
+                      color: Colors.blue,
+                    ),
+                   const  SizedBox(
+                      height: 30,
+                    ),
+                    SizedBox(
+                      //height: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20),
+                        child: TextFormField(
+                          controller: _feedbackController,
+                          minLines: 5,
+                          maxLines: 8,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(_maxWords),
+                          ],
+                          textAlign: TextAlign.start,
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration(
+                            //  contentPadding: EdgeInsets.only(bottom: 160),
+                
+                            border: const OutlineInputBorder(),
+                            hintText: ' Type Your Feedback Here..',
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide:
+                                 const  BorderSide(color: Colors.black, width: 1),
+                            ),
+                
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                color: Colors.blue,
+                                width: 1.0,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment(
-                      0.83, 0),
-                    child: Text(
-                      
-                     '$_charCount /  $_maxWords words',
+                    Align(
+                      alignment: Alignment(
+                        0.83, 0),
+                      child: Text(
+                        
+                       '$_charCount /  $_maxWords words',
+                      ),
                     ),
-                  ),
-
-
                 
-               const   SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue[400],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )),
-                    onPressed: () {
-                      BlocProvider.of<HomeBloc>(context).add(
-                        SubmitFeedbackEvent(message: _feedbackController.text),
-                      );
-                      _feedbackController.clear();
-                    },
-                    child: Text(
-                      "Submit",
-                      style: GoogleFonts.nunito(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
+                
+                  
+                 const   SizedBox(
+                      height: 20,
                     ),
-                  ),
-
-                ],
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue[400],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                      onPressed: () {
+                        BlocProvider.of<HomeBloc>(context).add(
+                          SubmitFeedbackEvent(message: _feedbackController.text),
+                        );
+                        _feedbackController.clear();
+                      },
+                      child: Text(
+                        "Submit",
+                        style: GoogleFonts.nunito(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                
+                  ],
+                ),
               );
             },
           ),

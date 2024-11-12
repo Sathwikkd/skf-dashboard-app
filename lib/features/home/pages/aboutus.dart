@@ -194,7 +194,10 @@ class Aboutus extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),
