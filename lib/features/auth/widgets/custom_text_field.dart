@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:skf_project/core/themes/constant_colors.dart';
 
 class CustomTextField extends StatelessWidget {
+  final bool isObscure;
   final TextEditingController controller;
   final String hintText;
   const CustomTextField({
     super.key,
     required this.controller,
     required this.hintText,
+    this.isObscure = false,
   });
 
   @override
@@ -21,6 +23,7 @@ class CustomTextField extends StatelessWidget {
         return null;
       },
       cursorColor: AppColors.darkGrey,
+      obscureText: isObscure,
       cursorHeight: 20,
       decoration: InputDecoration(
         border: _borderStyle(),

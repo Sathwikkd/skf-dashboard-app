@@ -30,6 +30,7 @@ class StatusBloc extends Bloc<StatusEvent, StatusState> {
 
         // Check if the response status code is not 200
         if (jsonResponse.statusCode != 200) {
+          print('Error');
           emit(FetchStatusDataFailedState());
           return;
         }
@@ -38,6 +39,7 @@ class StatusBloc extends Bloc<StatusEvent, StatusState> {
         List<dynamic> response = jsonDecode(jsonResponse.body)['statuses'];
 
         if (response.isEmpty) {
+          
           emit(FetchStatusDataFailedState());
           return;
         }

@@ -24,7 +24,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         var box = await Hive.openBox("authtoken");
         final String userid = box.get("user_id");
         box.close();
-        final jsonResponse = await http.post(Uri.parse("https://skfplc.vsensetech.in/user/feedback/$userid"),
+        final jsonResponse = await http.post(Uri.parse("https://skfplc.http.vsensetech.in/user/feedback/$userid"),
         body: jsonBody,
         );
         final response = jsonDecode(jsonResponse.body);

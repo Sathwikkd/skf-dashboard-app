@@ -64,10 +64,15 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const CustomHomePageCard(
-                title: "Devices",
-                icon: Icons.electrical_services_rounded,
-                iconSize: 40,
+              GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: const CustomHomePageCard(
+                  title: "Driers",
+                  icon: Icons.electrical_services_rounded,
+                  iconSize: 40,
+                ),
               ),
               GestureDetector(
                 onTap: () {
