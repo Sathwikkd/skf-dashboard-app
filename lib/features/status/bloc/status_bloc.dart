@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skf_project/core/constants/routes.dart';
 import 'package:skf_project/core/mqtt/mqtt_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
 
 part 'status_event.dart';
 part 'status_state.dart';
@@ -56,7 +57,9 @@ class StatusBloc extends Bloc<StatusEvent, StatusState> {
         }
 
         // Initialize the MQTT client and listen for updates
-        mqttClientManager.initilizeMqtt(event.drierId);
+        var uuid = const Uuid().v1();
+        print(uuid);
+        mqttClientManager.initilizeMqtt(event.drierId , uuid);
 
         // Listen to the MQTT stream
         await emit.forEach<StreamStatusData>(

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skf_project/core/mqtt/mqtt_client.dart';
+import 'package:uuid/uuid.dart';
 
 part 'recipe_event.dart';
 part 'recipe_state.dart';
@@ -15,7 +16,9 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
      _mqttStreamController = StreamController<StreamRecipeData>();
     on<FetchRecipeEvent>((event, emit) async {
       try {
-        mqttClientManager.initilizeMqtt(event.drierId);
+        var uuid = const Uuid().v1();
+        print(uuid);
+        mqttClientManager.initilizeMqtt(event.drierId , uuid);
         await emit.forEach<StreamRecipeData>(
           _mqttStreamController.stream,
           onData: (data) {

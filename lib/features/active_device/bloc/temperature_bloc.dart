@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 import 'package:skf_project/core/mqtt/mqtt_client.dart';
+import 'package:uuid/uuid.dart';
 
 part 'temperature_event.dart';
 part 'temperature_state.dart';
@@ -37,8 +38,10 @@ class TemperatureBloc extends Bloc<TemperatureEvent, TemperatureState> {
   // Bloc logic part to connect to Mqtt and Start Streaming
   Future<void> _fetchDataFromMqtt(FetchDataFromMqttEvent event , Emitter<TemperatureState> emit) async {
       try {
+        var uuid = const Uuid().v1();
+        print(uuid);
         // Initilizing mqtt client
-        mqttClientManager.initilizeMqtt(event.drierId);
+        mqttClientManager.initilizeMqtt(event.drierId , uuid);
         await emit.forEach<RealtimeStreamData>(
           _mqttStreamController.stream,
           onData: (data) {

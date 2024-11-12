@@ -6,10 +6,10 @@ class MqttClientManager {
    MqttServerClient? client;
   Function(String topic, String payload)? onMessageReceived;
 
-  Future<void> initilizeMqtt(String subscribeTopic) async {
+  Future<void> initilizeMqtt(String subscribeTopic , String clientId) async {
     // Initilizing all the required values of the client
     client =
-        MqttServerClient.withPort("skfplc.mqtt.vsensetech.in", "skf_plc_user_app", 1883);
+        MqttServerClient.withPort("skfplc.mqtt.vsensetech.in",clientId, 1883);
     client!.keepAlivePeriod = 60;
     client!.onConnected = onConnected;
     client!.onDisconnected = onDisconnected;
