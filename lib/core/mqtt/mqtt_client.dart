@@ -18,7 +18,7 @@ class MqttClientManager {
     client!.pongCallback = pong;
 
     final connMessage = MqttConnectMessage()
-        .withClientIdentifier('flutter_client')
+        .withClientIdentifier(clientId)
         .withWillTopic('willtopic')
         .withWillMessage('My Will message')
         .startClean()
