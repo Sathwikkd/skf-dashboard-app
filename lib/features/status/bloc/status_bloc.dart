@@ -13,21 +13,50 @@ part 'status_state.dart';
 class StatusBloc extends Bloc<StatusEvent, StatusState> {
   final MqttClientManager mqttClientManager;
   late StreamController<StreamStatusData> _mqttStreamController;
+
   StatusBloc({required this.mqttClientManager}) : super(StatusInitial()) {
-    _mqttStreamController = StreamController<StreamStatusData>();
-    on<FetchStatusDataEvent>((event , emit) async {
-        try { 
-          emit(FetchStatusDataLoadingState());
-          final jsonResponse = await http.get(Uri.parse("${HttpRoutes.fetchStatus}/${event.plcId}/${event.drierId}"));
-          var response = jsonDecode(jsonResponse.body);
-        if(jsonResponse.statusCode != 200){
+    // Use a broadcast stream to allow multiple listeners
+    _mqttStreamController = StreamController<StreamStatusData>.broadcast();
+
+    // Handle fetching status data event
+    on<FetchStatusDataEvent>((event, emit) async {
+      try {
+        emit(FetchStatusDataLoadingState());
+
+        // Fetch data from the server
+        final jsonResponse = await http.get(
+          Uri.parse("${HttpRoutes.fetchStatus}/${event.plcId}/${event.drierId}"),
+        );
+
+        // Check if the response status code is not 200
+        if (jsonResponse.statusCode != 200) {
           emit(FetchStatusDataFailedState());
           return;
         }
-        for(int i = 0 ; i < response.length ; i++){
-          emit(FetchStatusDataSuccessState(data: {response[i]['reg_type']: response[i]['reg_value']}, topic: ""));
+
+        // Parse the JSON response as a List
+        List<dynamic> response = jsonDecode(jsonResponse.body)['statuses'];
+
+        if (response.isEmpty) {
+          emit(FetchStatusDataFailedState());
+          return;
         }
+
+        // Emit data for each entry in the response list
+        for (var item in response) {
+          if (item is Map<String, dynamic>) {
+            print(item);
+            emit(FetchStatusDataSuccessState(
+              data: {item['reg_type']: item['reg_value']},
+              topic: "",
+            ));
+          }
+        }
+
+        // Initialize the MQTT client and listen for updates
         mqttClientManager.initilizeMqtt(event.drierId);
+
+        // Listen to the MQTT stream
         await emit.forEach<StreamStatusData>(
           _mqttStreamController.stream,
           onData: (data) {
@@ -39,21 +68,29 @@ class StatusBloc extends Bloc<StatusEvent, StatusState> {
           onError: (error, stackTrace) => FetchStatusDataFailedState(),
         );
       } catch (e) {
+        print("Error: $e");
         emit(FetchStatusDataFailedState());
       }
     });
-     mqttClientManager.onMessageReceived = (String topic, String payload) {
+
+    // Handle MQTT messages
+    mqttClientManager.onMessageReceived = (String topic, String payload) {
       var data = jsonDecode(payload);
       _mqttStreamController.add(StreamStatusData(data: data, topic: topic));
     };
+
+    // Handle stopping the MQTT stream
     on<StopStatusStreamEvent>((event, emit) async {
-      await mqttClientManager.disconnect(); // Call a method to close the MQTT connection.
-      await _mqttStreamController.close();
+      await mqttClientManager.disconnect();
+      if (!_mqttStreamController.isClosed) {
+        await _mqttStreamController.close();
+      }
     });
   }
 }
 
-class StreamStatusData{
+// Data structure to hold MQTT stream data
+class StreamStatusData {
   final dynamic data;
   final String topic;
   StreamStatusData({required this.data, required this.topic});

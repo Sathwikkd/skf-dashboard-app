@@ -19,12 +19,12 @@ class StatusPage extends StatefulWidget {
 }
 
 class _StatusPageState extends State<StatusPage> {
-  String blowerTS = "0";
-  String elevatorTS = "0";
-  String rotorTS = "0";
-  String blowerRS = "0";
-  String elevatorRS = "0";
-  String rotorRS = "0";
+  String blowerTS = "81";
+  String elevatorTS = "81";
+  String rotorTS = "81";
+  String blowerRS = "81";
+  String elevatorRS = "81";
+  String rotorRS = "81";
   bool isConnected = false;
 
   @override
