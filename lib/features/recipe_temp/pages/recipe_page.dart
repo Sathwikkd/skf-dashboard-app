@@ -37,11 +37,35 @@ class _RecipePageState extends State<RecipePage> {
       ),
     );
   }
+
+//   {
+// 	"rcp_stp":"1",
+//   "rtm":"10",
+//   "rtp":"30.90",
+//   "stm":"60"
+// }
+  String Complete = "81";
   int stepCount = 0;
   double temperatureValue = 0;
-  String timeValue = "0";
+  String timeValue = "00:00";
   String stepValue = "0";
+  String stTime = "00:00";
   bool isConnected = false;
+
+  String convertToTimeString(int? timeInSeconds) {
+    if (timeInSeconds == null) return "00:00";
+
+    // Convert seconds to hours and minutes
+    int hours = timeInSeconds ~/ 60;
+    int minutes = timeInSeconds % 60;
+
+    // Format to "HH:mm" with leading zeros
+    String formattedTime =
+        '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
+
+    return formattedTime;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
@@ -64,17 +88,22 @@ class _RecipePageState extends State<RecipePage> {
               }
 
               // Update `temperatureValue` only if it is not null and can be parsed to double
-              if (state.data.containsKey('tp') && state.data['tp'] != null) {
+              if (state.data.containsKey('rtp') && state.data['rtp'] != null) {
                 double? newTemperature =
-                    double.tryParse(state.data['tp'].toString());
+                    double.tryParse(state.data['rtp'].toString());
                 if (newTemperature != null) {
                   temperatureValue = newTemperature;
                 }
               }
 
               // Update `timeValue` only if it is not null
-              if (state.data.containsKey('tm') && state.data['tm'] != null) {
-                timeValue = state.data['tm'];
+              // Usage
+              if (state.data.containsKey('rtm') && state.data['rtm'] != null) {
+                timeValue = convertToTimeString(state.data['rtm']);
+              }
+
+              if (state.data.containsKey('stm') && state.data['stm'] != null) {
+                stTime = convertToTimeString(state.data['stm']);
               }
             });
           }
@@ -189,13 +218,26 @@ class _RecipePageState extends State<RecipePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
-                          timeValue,
-                          style: GoogleFonts.nunito(
-                            color: AppColors.darkGrey,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              stTime,
+                              style: GoogleFonts.nunito(
+                                color: AppColors.darkGrey,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              timeValue,
+                              style: GoogleFonts.nunito(
+                                color: AppColors.darkGrey,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                         Center(
                           child: SizedBox(
@@ -347,8 +389,8 @@ class _RecipePageState extends State<RecipePage> {
                                             ),
                                             TaskElement(
                                               taskName: "Task ${index + 1}",
-                                              completed: int.parse(stepValue) >
-                                                      index + 1
+                                              completed: (int.parse(stepValue)  >
+                                                      index + 1) || Complete == "400"
                                                   ? true
                                                   : false,
                                             ),
