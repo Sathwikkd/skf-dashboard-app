@@ -21,28 +21,28 @@ class PidValveGuage extends StatelessWidget {
       axes: <RadialAxis>[
         RadialAxis(
           minimum: minimumVal,
-          maximum:maxVal,
-          interval: interval,
+          maximum:100,
+          interval: 20,
           showLastLabel: true,
           ranges: <GaugeRange>[
             GaugeRange(
               startValue: 0,
-              endValue: 5,
+              endValue: 25,
               color: Colors.green,
             ),
             GaugeRange(
-              startValue: 5,
-              endValue: 10,
+              startValue: 25,
+              endValue: 50,
               color: Colors.orange,
             ),
             GaugeRange(
-              startValue: 10,
-              endValue: 15,
+              startValue: 50,
+              endValue: 75,
               color: Colors.yellow,
             ),
             GaugeRange(
-              startValue: 15,
-              endValue: 20,
+              startValue: 75,
+              endValue: 100,
               color: Colors.red,
             ),
           ],
@@ -75,7 +75,7 @@ class PidValveGuage extends StatelessWidget {
                   ],
                 ),
                 child: Text(
-                  '${pidValveOpening.toStringAsFixed(2)}mA',
+                  '${pidValveOpening.toStringAsFixed(2)}%',
                   style: GoogleFonts.nunito(
                     color: Colors.grey.shade800,
                     fontSize: 24,
