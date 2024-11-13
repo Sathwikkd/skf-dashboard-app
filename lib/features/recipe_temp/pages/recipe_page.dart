@@ -44,7 +44,7 @@ class _RecipePageState extends State<RecipePage> {
 //   "rtp":"30.90",
 //   "stm":"60"
 // }
-  String Complete = "81";
+  String completeStep = "81";
   int stepCount = 0;
   double temperatureValue = 0;
   String timeValue = "00:00";
@@ -52,16 +52,24 @@ class _RecipePageState extends State<RecipePage> {
   String stTime = "00:00";
   bool isConnected = false;
 
-  String convertToTimeString(int? timeInSeconds) {
-    if (timeInSeconds == null) return "00:00";
+  String convertToTimeString(String? timeInSeconds) {
+    if (timeInSeconds == null || timeInSeconds.isEmpty) return "00:00";
 
-    // Convert seconds to hours and minutes
-    int hours = timeInSeconds ~/ 60;
-    int minutes = timeInSeconds % 60;
+    // Convert the string to an integer
+    int seconds;
+    try {
+      seconds = int.parse(timeInSeconds);
+    } catch (e) {
+      return "00:00"; // Return default if parsing fails
+    }
 
-    // Format to "HH:mm" with leading zeros
+    // Convert seconds to minutes and seconds
+    int minutes = seconds ~/ 60;
+    int remainingSeconds = seconds % 60;
+
+    // Format to "mm:ss" with leading zeros
     String formattedTime =
-        '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
+        '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
 
     return formattedTime;
   }
@@ -105,6 +113,11 @@ class _RecipePageState extends State<RecipePage> {
               if (state.data.containsKey('stm') && state.data['stm'] != null) {
                 stTime = convertToTimeString(state.data['stm']);
               }
+
+              if (state.data.containsKey('rcp_stp_cmp') && state.data['rcp_stp_cmp'] != null) {
+                completeStep = state.data['rcp_stp_cmp'];
+              }
+
             });
           }
         }),
@@ -389,8 +402,9 @@ class _RecipePageState extends State<RecipePage> {
                                             ),
                                             TaskElement(
                                               taskName: "Task ${index + 1}",
-                                              completed: (int.parse(stepValue)  >
-                                                      index + 1) || Complete == "400"
+                                              completed: (int.parse(stepValue) >
+                                                          index + 1) ||
+                                                      completeStep == "400"
                                                   ? true
                                                   : false,
                                             ),
