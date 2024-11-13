@@ -107,8 +107,8 @@ class _TemperaturePidPageState extends State<TemperaturePidPage> {
                     label: "PID Valve Opening",
                     child: PidValveGuage(
                       minimumVal: 0,
-                      interval: 5,
-                      maxVal: 20,
+                      interval: 20,
+                      maxVal: 100,
                       pidValveOpening: pidvalveValue,
                     ),
                   ),

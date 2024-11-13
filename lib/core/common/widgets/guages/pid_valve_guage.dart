@@ -21,8 +21,8 @@ class PidValveGuage extends StatelessWidget {
       axes: <RadialAxis>[
         RadialAxis(
           minimum: minimumVal,
-          maximum:100,
-          interval: 20,
+          maximum:maxVal,
+          interval: interval,
           showLastLabel: true,
           ranges: <GaugeRange>[
             GaugeRange(
