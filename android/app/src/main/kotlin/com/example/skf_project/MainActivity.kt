@@ -1,4 +1,4 @@
-package com.example.skf_project
+package com.vsensetech.skf
 
 import io.flutter.embedding.android.FlutterActivity
 
